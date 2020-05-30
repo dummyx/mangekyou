@@ -25,7 +25,7 @@ def b4ke(video_file,subtitle_file,output_file):
                           '-c:v','libx264',
                           '-preset',preset,
                           '-crf', crf,
-                          '-x264-params','vbv-maxrate=20000:vbv-bufsize=20000:keyint=%d'%keyint,
+                          '-x264-params','vbv-maxrate=20000:vbv-bufsize=40000:keyint=%d'%keyint,
                           output_file]
     subprocess.run(ffmpeg_arg)
 
