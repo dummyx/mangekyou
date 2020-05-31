@@ -8,12 +8,14 @@ from tkinter import Tk
 
 preset = 'slower'
 crf = '14.5'
+ha = True
+ha_api = None
 
 def b4ke(video_file,subtitle_file,output_file):
     if os.name=='nt':
         subtitle_file = subtitle_file.replace(':','\\:')
     basename = os.path.basename(video_file)
-    if output_file=='':
+    if output_file==None:
         output_file = '[BE4K20K]'+basename[:basename.rfind('.')]+'.mp4'
     keyint = int(get_framerate(video_file))*10
     ffmpeg_arg = ['ffmpeg',
@@ -27,6 +29,17 @@ def b4ke(video_file,subtitle_file,output_file):
                           '-crf', crf,
                           '-x264-params','vbv-maxrate=20000:vbv-bufsize=40000:keyint=%d'%keyint,
                           output_file]
+                          
+    if ha:
+        if os.name=='nt':
+            if ha_api==None:
+                ha_api='d3d11va'
+        elif os.name=='posix':
+            if ha_api==None:
+                ha_api='vaapi'
+        ffmpeg_arg.insert(1,'-hwaccel')
+        ffmpeg_arg.insert(2,ha_api)
+  
     subprocess.run(ffmpeg_arg)
 
 def get_framerate(video_file):
@@ -44,7 +57,7 @@ if __name__=='__main__':
     if len(sys.argv)==3:
         video_file = sys.argv[1]
         subtitle_file = sys.argv[2]
-        output_file = ''
+        output_file = None
     else:
         Tk().withdraw()
         video_file = askopenfilename(filetypes=[('MP4 video file','.mp4')],title='Select video file')
