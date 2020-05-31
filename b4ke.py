@@ -30,12 +30,12 @@ def b4ke(video_file,subtitle_file,output_file):
                           '-x264-params','vbv-maxrate=20000:vbv-bufsize=40000:keyint=%d'%keyint,
                           output_file]
 
+    global ha_api
     if ha:
-        if os.name=='nt':
-            if ha_api==None:
+        if ha_api==None:
+            if os.name=='nt':      
                 ha_api='d3d11va'
-        elif os.name=='posix':
-            if ha_api==None:
+            elif os.name=='posix':
                 ha_api='vaapi'
         ffmpeg_arg.insert(1,'-hwaccel')
         ffmpeg_arg.insert(2,ha_api)
