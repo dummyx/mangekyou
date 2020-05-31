@@ -6,8 +6,8 @@ from fractions import Fraction
 from tkinter.filedialog import askopenfilename, asksaveasfilename
 from tkinter import Tk
 
-preset = 'slower'
-crf = '14.5'
+preset = 'faster'
+crf = '18.5'
 ha = True
 ha_api = None
 
@@ -29,7 +29,7 @@ def b4ke(video_file,subtitle_file,output_file):
                           '-crf', crf,
                           '-x264-params','vbv-maxrate=20000:vbv-bufsize=40000:keyint=%d'%keyint,
                           output_file]
-                          
+
     if ha:
         if os.name=='nt':
             if ha_api==None:
