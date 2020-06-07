@@ -23,7 +23,7 @@ def b4ke(video_file,subtitle_file,output_file):
                           '-c:a','aac',
                           '-ar','44100',
                           '-b:a','320k',
-                          '-filter_complex','ass=f=\'%s\''%subtitle_file,
+                          '-filter_complex','scale=4096:-1:flags=lanczos[sc];[sc]ass=f=\'%s\''%subtitle_file,
                           '-c:v','libx264',
                           '-preset',preset,
                           '-crf', crf,
