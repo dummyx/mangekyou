@@ -27,7 +27,8 @@ if __name__ == '__main__':
         info = tarfile.TarInfo(name=f.filename)
         info.size = extracted_stream.getbuffer().nbytes
         tar.addfile(info, extracted_stream)
-        extracted_stream.flush()
+        extracted_stream.truncate(0)
+        extracted_stream.seek(0)
 
         #subprocess.run(p7z_args+[output_file_path,f])
         print('Added %s'%f.filename,end='\r')
