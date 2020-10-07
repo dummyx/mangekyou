@@ -10,9 +10,11 @@ preset = 'faster'
 crf = '18.5'
 ha = False
 
-encoder = 'libx264'
+encoder = 'h264_amf'
 #libx264 or h264_amf
-bitrate = '23000'
+bitrate = '23000k'
+
+sound_file = ''
 
 if ha:
     if os.name == 'nt':
@@ -85,5 +87,9 @@ if __name__ == '__main__':
         output_file = asksaveasfilename(filetypes=[('MP4 video file', '.mp4')],
                                         title='Select output file',
                                         initialfile='[BE4K20K]'+vid_base[:vid_base.rfind('.')]+'.mp4')
-    
+
     b4ke(video_file, subtitle_file, output_file)
+
+    if os.name == 'nt' and sound_file != '':
+        import winsound
+        winsound.PlaySound(sound_file, winsound.SND_FILENAME)
