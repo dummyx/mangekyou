@@ -37,9 +37,9 @@ def b4ke(video_file, subtitle_file, output_file):
     keyint = int(get_framerate(video_file))*10
     ffmpeg_arg = ['ffmpeg',
                   '-i', str(video_file),
-                  '-c:a', 'aac',
-                  '-ar', ' 44100',
-                  '-b:a', '320k',
+                  '-c:a', 'copy',
+                  #'-ar', ' 44100',
+                  #'-b:a', '320k',
                   '-filter_complex',
                   'scale=3840:-1:flags=lanczos[sc];[sc]ass=f=\'%s\'' % subtitle_file,
                   '-c:v', encoder,
@@ -84,9 +84,10 @@ if __name__ == '__main__':
         subtitle_file = askopenfilename(filetypes=[('ASS subtitle file', '.ass')],
                                         title='Select subtitle file')
         vid_base = os.path.basename(video_file)
-        output_file = asksaveasfilename(filetypes=[('MP4 video file', '.mp4')],
-                                        title='Select output file',
-                                        initialfile='[BE4K20K]'+vid_base[:vid_base.rfind('.')]+'.mp4')
+        output_file = asksaveasfilename(
+                      filetypes=[('MP4 video file', '.mp4')],
+                      title='Select output file',
+                      initialfile='[BE4K20K]'+vid_base[:vid_base.rfind('.')]+'.mp4')
 
     b4ke(video_file, subtitle_file, output_file)
 
