@@ -2,6 +2,7 @@
 import os
 import subprocess
 import sys
+import shutil
 from fractions import Fraction
 from tkinter.filedialog import askopenfilename, asksaveasfilename
 from tkinter import Tk
@@ -10,7 +11,7 @@ preset = 'faster'
 crf = '18.5'
 ha = False
 
-encoder = 'h264_amf'
+encoder = 'libx264'
 #libx264 or h264_amf
 bitrate = '23000k'
 
@@ -27,10 +28,14 @@ x264_args = ['-preset', preset,
              '-crf', crf,
              '-x264-params']
 
+subtitle_temp = 'b4ke_subtitle_tmp.ass'
+
 
 def b4ke(video_file, subtitle_file, output_file):
     if os.name == 'nt':
         subtitle_file = subtitle_file.replace(':', '\\:')
+
+    shutil.copyfile(subtitle_file, subtitle_temp)
     basename = os.path.basename(video_file)
     if output_file is None:
         output_file = '[BE4K20K]'+basename[:basename.rfind('.')]+'.mp4'
@@ -41,7 +46,7 @@ def b4ke(video_file, subtitle_file, output_file):
                   #'-ar', ' 44100',
                   #'-b:a', '320k',
                   '-filter_complex',
-                  'scale=3840:-1:flags=lanczos[sc];[sc]ass=f=\'%s\'' % subtitle_file,
+                  'scale=3840:-1:flags=lanczos[sc];[sc]ass=f=\'%s\'' % subtitle_temp,
                   '-c:v', encoder,
                   output_file]
     if encoder == 'h264_amf':
@@ -58,6 +63,7 @@ def b4ke(video_file, subtitle_file, output_file):
         ffmpeg_arg.insert(2, ha_api)
 
     subprocess.run(ffmpeg_arg)
+    os.remove(subtitle_temp)
 
 
 def get_framerate(video_file):
