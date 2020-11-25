@@ -47,7 +47,7 @@ def b4ke(video_file, subtitle_file, output_file):
                   #'-ar', ' 44100',
                   #'-b:a', '320k',
                   '-filter_complex',
-                  'scale=3840:-1:flags=lanczos[sc];[sc]ass=f=\'%s\'' % subtitle_temp,
+                  'scale=3840:-1:flags=lanczos[sc];[sc]ass=f=\'%s\'' % os.path.join(sub_dir, subtitle_temp).replace(':', '\\:'),
                   '-c:v', encoder,
                   output_file]
     if encoder == 'h264_amf':
