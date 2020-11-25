@@ -32,8 +32,8 @@ subtitle_temp = 'b4ke_subtitle_tmp.ass'
 
 
 def b4ke(video_file, subtitle_file, output_file):
-    if os.name == 'nt':
-        subtitle_file = subtitle_file.replace(':', '\\:')
+    #if os.name == 'nt':
+    #    subtitle_file = subtitle_file.replace(':', '\\:')
 
     shutil.copyfile(subtitle_file, subtitle_temp)
     basename = os.path.basename(video_file)
