@@ -50,13 +50,14 @@ def b4ke(video_file, subtitle_file, output_file):
                   'scale=3840:-1:flags=lanczos[sc];[sc]ass=f=\'%s\'' % os.path.join(sub_dir, subtitle_temp).replace('\\','/').replace(':', '\\:'),
                   '-c:v', encoder,
                   output_file]
-    if encoder == 'h264_amf':
-        ffmpeg_arg.insert(-1, '-b:v')
-        ffmpeg_arg.insert(-1, bitrate)
-    elif encoder == 'libx264':
+    if encoder == 'libx264':
         for arg in x264_args:
             ffmpeg_arg.insert(-1, arg)
         ffmpeg_arg.insert(-1, x264_params.format(bitrate, keyint))
+    else:
+        ffmpeg_arg.insert(-1, '-b:v')
+        ffmpeg_arg.insert(-1, bitrate)
+    
     print(ffmpeg_arg)
 
     if ha:
